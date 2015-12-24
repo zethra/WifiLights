@@ -16,7 +16,7 @@ LOGFILE=/var/log/wifiLights.log
 
 if [ ! -e $LOGFILE ]; then
     touch $LOGFILE
-    chown zethra $LOGFILE
+    chown $RUNAS $LOGFILE
 fi
 
 start() {
