@@ -12,7 +12,7 @@ cd temp
 mkdir bin pkg src
 export GOPATH=`pwd`
 $GOBIN get github.com/zethra/WifiLights
-sed -i "s/'<USER>'/$(echo -e "'$USER'")/g" src/github.com/zethra/WifiLights/wifiLights.sh
+sed -i "s/'<USER>'/$(printf "'$USER'")/g" src/github.com/zethra/WifiLights/wifiLights.sh
 
 if [ -e /opt/wifiLights ]; then
     if [ "$(ls -A /opt/wifiLights)" ]; then
