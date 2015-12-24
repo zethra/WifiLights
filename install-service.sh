@@ -29,6 +29,7 @@ mv bin/WifiLights /opt/wifiLights/bin/wifiLights
 cp -r src/github.com/zethra/WifiLights/web /opt/wifiLights/
 
 mv src/github.com/zethra/WifiLights/wifiLights.sh /etc/init.d/wifiLights
+chmod +x /etc/init.d/wifiLights
 update-rc.d wifiLights defaults
 
 cd ..
