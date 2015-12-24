@@ -33,6 +33,10 @@ mv src/github.com/zethra/WifiLights/wifiLights.sh /etc/init.d/wifiLights
 chmod +x /etc/init.d/wifiLights
 update-rc.d wifiLights defaults
 
+if [ -e /var/log/wifiLights.log ]; then
+    rm /var/log/wifiLights.log
+fi
+
 cd ..
 if [ -e temp ]; then
     rm -r temp
