@@ -9,7 +9,7 @@
 ### END INIT INFO
 
 SCRIPT='cd /opt/wifiLights; ./bin/wifiLights'
-RUNAS='zethra'
+RUNAS='<USER>'
 
 PIDFILE=/var/run/wifiLights.pid
 LOGFILE=/var/log/wifiLights.log
