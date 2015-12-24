@@ -8,7 +8,7 @@ const char* password = "Highlander";
 
 char path[] = "/io";
 char host[] = "192.168.1.4";
-int now, old, pin = 13;
+
 bool state;
 
 WebSocketClient webSocketClient;
@@ -17,8 +17,7 @@ WebSocketClient webSocketClient;
 WiFiClient client;
 
 bool handshake() {
-  state = !state;
-  digitalWrite(0, state);
+  digitalWrite(13, LOW);
   if (client.connect(host, 8080)) {
     Serial.println("Connected");
   } else {
@@ -42,6 +41,7 @@ bool handshake() {
 void setup() {
   Serial.begin(115200);
   pinMode(0, OUTPUT);
+  pinMode(13, OUTPUT);
   delay(100);
  
   // We start by connecting to a WiFi network
@@ -64,8 +64,6 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   delay(5000);
-  now = millis();
-  old = now;
 
   while(!handshake()) {
     delay(5000);
@@ -74,14 +72,7 @@ void setup() {
  
 void loop() {
   String data;
-  
-  now = millis();
-  if(now - old > 500) {
-    state = !state;
-    digitalWrite(0, state);
-    old = now;
-  }
-  
+ 
   if (client.connected()) {
     
     webSocketClient.getData(data);
@@ -90,16 +81,20 @@ void loop() {
       Serial.println(data);
       if(data == "on") {
         Serial.println("ON");
-        digitalWrite(pin, LOW);
+        digitalWrite(13, HIGH);
       } else if (data == "off") {
         Serial.println("OFF");
-        digitalWrite(pin, HIGH);
+        digitalWrite(13, LOW);
+      }
+      else if (data == "toggle") {
+        Serial.println("TOGGLE");
+        state = !state;
+        digitalWrite(13, state);
       }
     }
     
   } else {
     Serial.println("Client disconnected.");
-    state = true;
     while(!handshake()) {
       delay(5000);
     }
