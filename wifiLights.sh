@@ -50,6 +50,7 @@ uninstall() {
     echo "Notice: log file is not be removed: '$LOGFILE'" >&2
     update-rc.d -f wifiLights remove
     rm -fv "$0"
+    rm -rv /opt/wifiLights
   fi
 }
 

@@ -19,6 +19,9 @@ if [ -e /opt/wifiLights ]; then
     fi
 else
     mkdir /opt/wifiLights
+fi
+
+if [ ! -e /opt/wifiLights/bin ]; then
     mkdir /opt/wifiLights/bin
 fi
 
