@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Light Controller</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Ben's Light Controller"/>
+    <meta name="author" content="Ben"/>
     <link href="bootstrap-3.3.6-dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="css/main.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-<div class="container">
-    <a href="javascript:on()">On</a>
-    <a href="javascript:off()">Off</a>
-    <a href="javascript:WebSocketTest()">Run WebSocket</a>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">Light Controller</a>
+    </div>
+</nav>
+<div class="container-fluid main">
+    <div id="toggle" class="col-md-offset-5 col-xs-offset-3">
+        <a href="javascript:toggle()"><span class="glyphicon glyphicon-off"></span></a>
+    </div>
 </div>
 <script src="js/lib/jquery-2.1.4.js"></script>
 <script src="bootstrap-3.3.6-dist/js/bootstrap.js"></script>

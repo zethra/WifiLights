@@ -1,0 +1,29 @@
+body {
+    background-color: #14171a;
+}
+
+.main {
+    margin-top: 70px;
+    font-size: 2em;
+/*    width: 50%;
+    margin-left: auto;*/
+}
+
+.navbar-inverse {
+    background-color: #1C2126;
+}
+
+#toggle {
+    color: #9d9d9d;
+    background-color: #343c45;
+    width: 120px;
+    height: 120px;
+    font-size: 3em;
+    padding-left: 18px;
+    padding-top: 13px;
+    border-radius: 35px;
+}
+
+#toggle > a {
+    color: #707880;
+}

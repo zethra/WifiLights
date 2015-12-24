@@ -1,3 +1,5 @@
+var state = false, onColor='#35a1ff', offColor='#707880';
+
 function on() {
     $.ajax({
         type: 'POST',
@@ -6,7 +8,8 @@ function on() {
             message: 'on'
         },
         success: function(response) {
-            console.log(response)
+            console.log(response);
+            updateUI();
         }
     })
 }
@@ -19,37 +22,43 @@ function off() {
             message: 'off'
         },
         success: function(response) {
-            console.log(response)
+            console.log(response);
+            updateUI();
         }
     })
 }
 
-function WebSocketTest() {
-    if ("WebSocket" in window) {
-        console.log("WebSocket is supported by your Browser!");
-
-        // Let us open a web socket
-        var ws = new WebSocket("ws://localhost:8080/io");
-
-        ws.onopen = function () {
-            // Web Socket is connected, send data using send()
-            ws.send("start");
-            console.log("Message is sent...");
-        };
-
-        ws.onmessage = function (evt) {
-            var received_msg = evt.data;
-            console.log("Message is received: " + received_msg);
-        };
-
-        ws.onclose = function () {
-            // websocket is closed.
-            console.log("Connection is closed...");
-        };
-    }
-
-    else {
-        // The browser doesn't support WebSocket
-        console.log("WebSocket NOT supported by your Browser!");
-    }
+function toggle() {
+    $.ajax({
+        type: 'POST',
+        url: '/ctrl',
+        data: {
+            message: 'toggle'
+        },
+        success: function(response) {
+            console.log(response);
+            updateUI();
+        }
+    })
 }
+
+function updateUI() {
+    $.ajax({
+        type: 'GET',
+        url: '/state',
+        success: function(response) {
+            state = (response == 'true');
+            var button = $('#toggle').find('a');
+            if(state) {
+                button.css('color', onColor);
+            } else {
+                button.css('color', offColor);
+            }
+        }
+    });
+}
+
+$(document).ready(function(){
+    updateUI();
+    setInterval(updateUI, 1000);
+});

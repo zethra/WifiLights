@@ -3,15 +3,16 @@ import (
 	"net/http"
 	"github.com/gorilla/websocket"
 	"log"
+	"strconv"
 )
 
 type Status struct {
-	connected bool
+	state bool
 	message chan string
 }
 
 var status = Status{
-	connected: false,
+	state: false,
 	message: make(chan string),
 }
 
@@ -23,9 +24,14 @@ var upgrader = websocket.Upgrader{
 
 func main() {
 	http.Handle("/", http.FileServer(http.Dir("web")))
+	http.HandleFunc("/state", stateHandler)
 	http.HandleFunc("/ctrl", controlHandler)
 	http.HandleFunc("/io", socketHandler)
 	http.ListenAndServe(":8080", nil)
+}
+
+func stateHandler(writer http.ResponseWriter, request *http.Request) {
+	writer.Write([]byte(strconv.FormatBool(status.state)));
 }
 
 func controlHandler(writer http.ResponseWriter, request *http.Request) {
@@ -36,6 +42,13 @@ func controlHandler(writer http.ResponseWriter, request *http.Request) {
 	}
 	message := request.PostFormValue("message")
 	log.Println("Recieved message: " + message)
+	if(message == "toggle") {
+		status.state = !status.state
+	} else if(message == "on") {
+		status.state = true
+	} else if(message == "off") {
+		status.state = false
+	}
 	status.message <- message
 }
 
@@ -55,10 +68,12 @@ func socketHandler(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	log.Println("Waiting for command")
+	status.state = false
 	for {
 		command := <- status.message
 		if err = conn.WriteMessage(messageType, []byte(command)); err != nil {
 			log.Println(err)
+			status.state = false
 			return
 		}
 		log.Println("Sent command: " + command)
