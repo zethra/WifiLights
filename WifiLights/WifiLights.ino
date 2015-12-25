@@ -7,7 +7,7 @@ const char* ssid     = "Sherlock";
 const char* password = "Highlander";
 
 char path[] = "/io";
-char host[] = "192.168.1.4";
+char host[] = "192.168.1.27";
 
 bool state;
 

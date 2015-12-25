@@ -42,13 +42,6 @@ func controlHandler(writer http.ResponseWriter, request *http.Request) {
 	}
 	message := request.PostFormValue("message")
 	log.Println("Recieved message: " + message)
-	if(message == "toggle") {
-		status.state = !status.state
-	} else if(message == "on") {
-		status.state = true
-	} else if(message == "off") {
-		status.state = false
-	}
 	status.message <- message
 }
 
@@ -71,6 +64,13 @@ func socketHandler(writer http.ResponseWriter, request *http.Request) {
 	status.state = false
 	for {
 		command := <- status.message
+		if(command == "toggle") {
+			status.state = !status.state
+		} else if(command == "on") {
+			status.state = true
+		} else if(command == "off") {
+			status.state = false
+		}
 		if err = conn.WriteMessage(messageType, []byte(command)); err != nil {
 			log.Println(err)
 			status.state = false
